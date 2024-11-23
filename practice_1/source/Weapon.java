@@ -1,5 +1,5 @@
 public class Weapon {
-    void attack() {
+    public void attack() {
         System.out.println("Attack!");
     }
 }
