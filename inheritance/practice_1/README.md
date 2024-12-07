@@ -46,7 +46,7 @@ public class Person {
 
 ```java
 public class Forthey extends Person {
-    public Forthey {
+    public Forthey() {
         super("Forthey");
     }
     
