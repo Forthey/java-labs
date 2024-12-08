@@ -1,20 +1,20 @@
 package huffman.utility;
 
 public class BinaryStringReader {
-    private final byte bitsInChar;
-    private final String binaryString;
+    private final byte bitsInByte;
+    private final byte[] binaryString;
     int stringIter;
     byte charIter;
 
-    public BinaryStringReader(final String binaryString) throws IllegalArgumentException {
+    public BinaryStringReader(final byte[] binaryString) throws IllegalArgumentException {
         this(binaryString, (byte) 8);
     }
 
-    public BinaryStringReader(final String binaryString, byte bitsInChar) throws IllegalArgumentException {
-        if (binaryString.length() < 2)
-            throw new IllegalArgumentException("Invalid binary string length: too short - " + binaryString.length());
+    public BinaryStringReader(final byte[] binaryString, byte bitsInChar) throws IllegalArgumentException {
+        if (binaryString.length < 2)
+            throw new IllegalArgumentException("Invalid binary string length: too short - " + binaryString.length);
         this.binaryString = binaryString;
-        this.bitsInChar = bitsInChar;
+        this.bitsInByte = bitsInChar;
         this.charIter = 0;
         this.stringIter = 0;
     }
@@ -30,17 +30,21 @@ public class BinaryStringReader {
         if (reachedEnd())
             throw new RuntimeException("ERROR! Unexpected EOF");
 
-        if (charIter == bitsInChar) {
+        if (charIter == bitsInByte) {
             charIter = 0;
             stringIter++;
         }
-        boolean result = ((binaryString.charAt(stringIter) >> (bitsInChar - 1 - charIter)) & 1) == 1;
+        boolean result = ((binaryString[stringIter] >>> (bitsInByte - 1 - charIter)) & 1) == 1;
         charIter++;
 
         return result;
     }
 
     public boolean reachedEnd() {
-        return stringIter == binaryString.length() - 2 && charIter >= binaryString.charAt(binaryString.length() - 1);
+        return stringIter == binaryString.length - 2 && charIter >= binaryString[binaryString.length - 1];
+    }
+
+    public int length() {
+        return binaryString.length;
     }
 }

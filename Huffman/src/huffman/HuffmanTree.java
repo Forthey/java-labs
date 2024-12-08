@@ -8,10 +8,10 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 public class HuffmanTree {
-    private static HashMap<Character, Long> countCharacters(final String text) {
-        var charFrequency = new HashMap<Character, Long>();
+    private static HashMap<Byte, Long> countBytes(final byte[] data) {
+        var charFrequency = new HashMap<Byte, Long>();
 
-        for (char ch : text.toCharArray()) {
+        for (byte ch : data) {
             if (!charFrequency.containsKey(ch))
                 charFrequency.put(ch, 1L);
             else
@@ -21,10 +21,10 @@ public class HuffmanTree {
         return charFrequency;
     }
 
-    private static HuffmanTree buildHuffmanTree(final HashMap<Character, Long> characterFreq) {
+    private static HuffmanTree buildHuffmanTree(final HashMap<Byte, Long> characterFreq) {
         var symbolsQueue = new PriorityQueue<HuffmanTree>(Comparator.comparingLong(tree -> tree.root.freq));
 
-        for (Character ch : characterFreq.keySet()) {
+        for (Byte ch : characterFreq.keySet()) {
             symbolsQueue.add(new HuffmanTree(ch, characterFreq.get(ch)));
         }
 
@@ -39,13 +39,13 @@ public class HuffmanTree {
     }
 
     public static class Node {
-        public char character;
+        public byte b;
         public long freq;
 
         Node left, right;
 
-        public Node(char character, long freq, Node left, Node right) {
-            this.character = character;
+        public Node(byte b, long freq, Node left, Node right) {
+            this.b = b;
             this.freq = freq;
             this.left = left;
             this.right = right;
@@ -54,19 +54,19 @@ public class HuffmanTree {
 
     Node root;
 
-    public HuffmanTree(final String text) {
-        root = buildHuffmanTree(countCharacters(text)).root;
+    public HuffmanTree(final byte[] data) {
+        root = buildHuffmanTree(countBytes(data)).root;
     }
 
-    public HuffmanTree(char character, long freq) {
-        root = new Node(character, freq, null, null);
+    public HuffmanTree(byte b, long freq) {
+        root = new Node(b, freq, null, null);
     }
 
     public HuffmanTree(HuffmanTree left, HuffmanTree right) {
-        root = new Node((char) 0, left.root.freq + right.root.freq, left.root, right.root);
+        root = new Node((byte) 0, left.root.freq + right.root.freq, left.root, right.root);
     }
 
-    HashMap<Character, CharCodeWithMeta> buildCodes() {
+    HashMap<Byte, CharCodeWithMeta> buildCodes() {
         class TraversingData {
             public Node node;
             public final CharCodeWithMeta nodeCode;
@@ -76,13 +76,12 @@ public class HuffmanTree {
                 this.nodeCode = nodeCode;
             }
         }
-        ;
 
-        var codes = new HashMap<Character, CharCodeWithMeta>();
+        var codes = new HashMap<Byte, CharCodeWithMeta>();
 
         // If text contains only 1 character
         if (root.left == null & root.right == null) {
-            codes.put(root.character, new CharCodeWithMeta(1L, (byte) 1));
+            codes.put(root.b, new CharCodeWithMeta(1L, (byte) 1));
             return codes;
         }
 
@@ -94,7 +93,7 @@ public class HuffmanTree {
             TraversingData data = stack.pop();
 
             if (data.node.left == null && data.node.right == null) {
-                codes.put(data.node.character, data.nodeCode);
+                codes.put(data.node.b, data.nodeCode);
                 continue;
             }
 
@@ -105,7 +104,7 @@ public class HuffmanTree {
 
             stack.push(new TraversingData(
                     data.node.right, new CharCodeWithMeta(
-                    data.nodeCode.code << 1 + 1, (byte) (data.nodeCode.length + (byte) 1))
+                    (data.nodeCode.code << 1) + 1, (byte) (data.nodeCode.length + (byte) 1))
             ));
         }
 

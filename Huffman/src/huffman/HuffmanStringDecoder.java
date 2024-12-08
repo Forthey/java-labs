@@ -3,28 +3,33 @@ package huffman;
 import huffman.utility.BinaryStringReader;
 import huffman.utility.CharCodeWithMeta;
 
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class HuffmanStringDecoder {
     private BinaryStringReader reader;
     private HashMap<CharCodeWithMeta, Character> codeToChar;
-    private StringBuilder decoded;
+    private ArrayList<Byte> decoded;
 
     private void decodeCodes() {
-        byte codesNumber = (byte) reader.next((byte) 8);
+        char codesNumber = (char) reader.next((byte) 8);
 
-        for (byte i = 0; i <= codesNumber; i++) {
+        for (char i = 0; i <= codesNumber; i++) {
             char ch = (char) reader.next((byte) 8);
             byte codeLength = (byte) reader.next((byte) 6);
             long code = reader.next(codeLength);
 
-            codeToChar.put(new CharCodeWithMeta(code, codeLength), ch);
+            var charCodeWithMeta = new CharCodeWithMeta(code, codeLength);
+            codeToChar.put(charCodeWithMeta, ch);
         }
     }
 
     private void decodeStr() {
         long code = 0;
         byte codeLength = 0;
+
+        decoded.ensureCapacity(reader.length());
 
         while (!reader.reachedEnd()) {
             if (code >= Long.MAX_VALUE / 2)
@@ -34,7 +39,7 @@ public class HuffmanStringDecoder {
 
             var charCodeWithMeta = new CharCodeWithMeta(code, codeLength);
             if (codeToChar.containsKey(charCodeWithMeta)) {
-                decoded.append(codeToChar.get(charCodeWithMeta));
+                decoded.add((byte) codeToChar.get(charCodeWithMeta).charValue());
                 code = 0;
                 codeLength = 0;
             }
@@ -44,16 +49,16 @@ public class HuffmanStringDecoder {
             throw new RuntimeException("ERROR! File is not valid");
     }
 
-    public HuffmanStringDecoder(final String data) {
+    public HuffmanStringDecoder(final byte[] data) {
         reader = new BinaryStringReader(data);
         codeToChar = new HashMap<>();
-        decoded = new StringBuilder();
+        decoded = new ArrayList<>();
 
         decodeCodes();
         decodeStr();
     }
 
-    public String getDecoded() {
-        return decoded.toString();
+    public Byte[] getDecoded() {
+        return decoded.toArray(new Byte[0]);
     }
 }

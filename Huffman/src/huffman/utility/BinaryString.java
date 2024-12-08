@@ -1,8 +1,11 @@
 package huffman.utility;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 public class BinaryString {
-    private final byte bitsInChar;
-    private StringBuilder str;
+    private final byte bitsInByte;
+    private final ArrayList<Byte> data;
     private byte bitsAtTheEnd;
 
     public BinaryString() {
@@ -10,32 +13,32 @@ public class BinaryString {
     }
 
     public BinaryString(byte bitsInChar) {
-        this.bitsInChar = bitsInChar;
-        str = new StringBuilder();
+        this.bitsInByte = bitsInChar;
+        data = new ArrayList<>();
         bitsAtTheEnd = 0;
     }
 
     public void placeBit(boolean bit) {
-        char cBit = bit ? (char) 1 : (char) 0;
+        byte cBit = bit ? (byte) 1 : (byte) 0;
 
-        if (bitsAtTheEnd % bitsInChar == 0) {
-            str.append(cBit);
+        if (bitsAtTheEnd % bitsInByte == 0) {
+            data.add(cBit);
             bitsAtTheEnd = 1;
             return;
         }
 
-        str.setCharAt(str.length() - 1, (char) ((char) (str.charAt(str.length() - 1) << 1) + cBit));
+        data.set(data.size() - 1, (byte) ((data.getLast() << 1) + cBit));
         bitsAtTheEnd++;
     }
 
-    public void placeChar(char ch) {
-        for (byte i = bitsInChar; i > 0; --i) {
-            boolean bit = ((ch >> (i - 1)) & 1) == 1;
+    public void placeByte(byte ch) {
+        for (byte i = bitsInByte; i > 0; --i) {
+            boolean bit = ((ch >>> (i - 1)) & 1) == 1;
             placeBit(bit);
         }
     }
 
-    public void placeCharCode(final CharCodeWithMeta code) {
+    public void placeByteCode(final CharCodeWithMeta code) {
         for (byte i = code.length; i > 0; --i) {
             boolean bit = ((code.code >> (i - 1)) & 1) == 1;
             placeBit(bit);
@@ -44,13 +47,13 @@ public class BinaryString {
 
     public void setEnd() {
         byte trueBitsAtTheEnd = bitsAtTheEnd;
-        while (bitsAtTheEnd != bitsInChar) {
+        while (bitsAtTheEnd != bitsInByte) {
             placeBit(false);
         }
-        placeCharCode(new CharCodeWithMeta(trueBitsAtTheEnd, bitsInChar));
+        placeByteCode(new CharCodeWithMeta(trueBitsAtTheEnd, bitsInByte));
     }
 
-    public String getString() {
-        return str.toString();
+    public Byte[] getBytes() {
+        return data.toArray(new Byte[0]);
     }
 };

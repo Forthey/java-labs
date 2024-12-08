@@ -9,16 +9,17 @@ public class CharCodeWithMeta {
         this.length = length;
     }
 
-    public boolean equals(CharCodeWithMeta other) {
-        if (other == null) return false;
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || getClass() != other.getClass()) return false;
         if (this == other) return true;
 
-        return this.code == other.code && length == other.length;
+        CharCodeWithMeta c = (CharCodeWithMeta) other;
+        return this.code == c.code && length == c.length;
     }
 
     @Override
     public int hashCode() {
         return (int) (code >= length ? code * code + code + length : code + length * length);
     }
-
 };
