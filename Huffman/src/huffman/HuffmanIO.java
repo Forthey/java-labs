@@ -23,7 +23,7 @@ public class HuffmanIO {
 
     public static void printCodes(final HashMap<Byte, CharCodeWithMeta> codes) {
         for (Byte ch : codes.keySet()) {
-            System.out.printf("%c: %s\n", (char) ch.byteValue(), prettyCode(codes.get(ch)));
+            System.out.printf("%c (%d) \t%s\n", (char) ch.byteValue(), ch, prettyCode(codes.get(ch)));
         }
     }
 
