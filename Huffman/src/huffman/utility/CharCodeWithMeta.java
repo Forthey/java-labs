@@ -15,13 +15,10 @@ public class CharCodeWithMeta {
 
         return this.code == other.code && length == other.length;
     }
-};
 
-// TODO Переписать на Java, чтобы работало с HashMap
-//template<>
-//struct std::hash<CharCodeWithMeta> {
-//    std::size_t operator()(const CharCodeWithMeta &key) const {
-//        return key.code >= key.length ? key.code * key.code + key.code + key.length : key.code +
-//                key.length * key.length;
-//    }
-//};
+    @Override
+    public int hashCode() {
+        return (int) (code >= length ? code * code + code + length : code + length * length);
+    }
+
+};

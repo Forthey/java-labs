@@ -26,7 +26,7 @@ public class BinaryStringReader {
         return result;
     }
 
-    boolean nextBit() throws RuntimeException {
+    public boolean nextBit() throws RuntimeException {
         if (reachedEnd())
             throw new RuntimeException("ERROR! Unexpected EOF");
 
@@ -40,7 +40,7 @@ public class BinaryStringReader {
         return result;
     }
 
-    boolean reachedEnd() {
+    public boolean reachedEnd() {
         return stringIter == binaryString.length() - 2 && charIter >= binaryString.charAt(binaryString.length() - 1);
     }
 }
