@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Huffman {
-    public static void compress(final String inFilename, final String outFilename) {
+    public static void compress(final String inFilename, final String outFilename, boolean printCodes, boolean printStats) {
         var timeWatcher = new TimeWatcher();
 
         timeWatcher.start("read-file-to-encode");
@@ -20,9 +20,9 @@ public class Huffman {
         HashMap<Byte, CharCodeWithMeta> codes = new HuffmanTree(data).buildCodes();
         timeWatcher.stop();
 
-//        timeWatcher.start("print-codes");
-//        HuffmanIO.printCodes(codes);
-//        timeWatcher.stop();
+        if (printCodes) {
+            HuffmanIO.printCodes(codes);
+        }
 
         timeWatcher.start("encode-str");
         byte[] encodedData = new HuffmanStringEncoder(codes, data).getEncoded();
@@ -31,9 +31,13 @@ public class Huffman {
         timeWatcher.start("write-file-encoded");
         HuffmanIO.writeToFile(outFilename, encodedData);
         timeWatcher.stop();
+
+        if (printStats) {
+            HuffmanIO.printStats(data.length, encodedData.length);
+        }
     }
 
-    public static void decompress(final String inFilename, final String outFilename) {
+    public static void decompress(final String inFilename, final String outFilename, boolean printStats) {
         var timeWatcher = new TimeWatcher();
 
         timeWatcher.start("read-file-to-decode");
@@ -48,6 +52,8 @@ public class Huffman {
         HuffmanIO.writeToFile(outFilename, data);
         timeWatcher.stop();
 
-//        HuffmanIO.printStats(encodedText->length(), text->length());
+        if (printStats) {
+            HuffmanIO.printStats(encodedData.length, data.length);
+        }
     }
 }

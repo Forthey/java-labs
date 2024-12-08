@@ -31,8 +31,7 @@ public class HuffmanIO {
             fileOutputStream.write(data);
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + filename);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.err.println("Error during file writing: " + e.getMessage());
         }
     }
@@ -44,5 +43,37 @@ public class HuffmanIO {
             System.err.println("Error reading file: " + e.getMessage());
         }
         return null;
+    }
+
+    private static String prettySize(long size) {
+        long loweredSize;
+        byte level = 0;
+        while ((loweredSize = size / 1024) > 100) {
+            size = loweredSize;
+            level++;
+        }
+
+        String postFix = "?";
+        switch (level) {
+            case 0 -> {
+                postFix = "B";
+            }
+            case 1 -> {
+                postFix = "KB";
+            }
+            case 2 -> {
+                postFix = "MB";
+            }
+            case 3 -> {
+                postFix = "GB";
+            }
+        }
+
+        return String.format("%d%s", size, postFix);
+    }
+
+    public static void printStats(long sizeBefore, long sizeAfter) {
+        double compressionRatio = 1.0 - (double) sizeAfter / sizeBefore;
+        System.out.printf("size: %s -> %s (%d)\n", prettySize(sizeBefore), prettySize(sizeAfter), (int) compressionRatio);
     }
 }
