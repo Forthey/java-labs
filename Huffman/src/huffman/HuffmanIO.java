@@ -2,8 +2,9 @@ package huffman;
 
 import huffman.utility.CharCodeWithMeta;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -22,7 +23,7 @@ public class HuffmanIO {
 
     public static void printCodes(final HashMap<Byte, CharCodeWithMeta> codes) {
         for (Byte ch : codes.keySet()) {
-            System.out.printf("%d: %s\n", ch, prettyCode(codes.get(ch)));
+            System.out.printf("%c: %s\n", (char) ch.byteValue(), prettyCode(codes.get(ch)));
         }
     }
 
@@ -66,6 +67,6 @@ public class HuffmanIO {
 
     public static void printStats(long sizeBefore, long sizeAfter) {
         double compressionRatio = 1.0 - (double) sizeAfter / sizeBefore;
-        System.out.printf("size: %s -> %s (%d)\n", prettySize(sizeBefore), prettySize(sizeAfter), (int) compressionRatio);
+        System.out.printf("size: %s -> %s (%d%%)\n", prettySize(sizeBefore), prettySize(sizeAfter), (int) (compressionRatio * 100));
     }
 }

@@ -28,7 +28,7 @@ public class CLI {
                 case "--log-time" -> TimeWatcher.setIsOn(true);
                 case "--codes" -> printCodes = true;
                 case "--stats" -> printStats = true;
-                case "--decompress", "d" -> decompress = true;
+                case "--decompress", "-d" -> decompress = true;
                 case "-h", "--help" -> {
                     printOptions();
                     return;
