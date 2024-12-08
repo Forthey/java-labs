@@ -10,6 +10,15 @@ public class HuffmanStringEncoder {
     private final HashMap<Byte, CharCodeWithMeta> charToCode;
     private final byte[] data;
 
+    public HuffmanStringEncoder(final HashMap<Byte, CharCodeWithMeta> charToCode, final byte[] data) {
+        encoder = new BinaryString();
+        this.charToCode = charToCode;
+        this.data = data;
+
+        encodeCodes();
+        encodeStr();
+    }
+
     private void encodeCodes() {
         encoder.placeByte((byte) (charToCode.size() - 1));
         for (Byte ch : charToCode.keySet()) {
@@ -24,15 +33,6 @@ public class HuffmanStringEncoder {
             encoder.placeByteCode(charToCode.get(ch));
         }
         encoder.setEnd();
-    }
-
-    public HuffmanStringEncoder(final HashMap<Byte, CharCodeWithMeta> charToCode, final byte[] data) {
-        encoder = new BinaryString();
-        this.charToCode = charToCode;
-        this.data = data;
-
-        encodeCodes();
-        encodeStr();
     }
 
     public byte[] getEncoded() {

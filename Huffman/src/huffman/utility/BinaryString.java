@@ -1,8 +1,6 @@
 package huffman.utility;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 public class BinaryString {
     private final byte bitsInByte;

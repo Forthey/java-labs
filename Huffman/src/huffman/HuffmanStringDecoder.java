@@ -3,7 +3,6 @@ package huffman;
 import huffman.utility.BinaryStringReader;
 import huffman.utility.CharCodeWithMeta;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,6 +10,15 @@ public class HuffmanStringDecoder {
     private BinaryStringReader reader;
     private HashMap<CharCodeWithMeta, Byte> codeToChar;
     private ArrayList<Byte> decoded;
+
+    public HuffmanStringDecoder(final byte[] data) {
+        reader = new BinaryStringReader(data);
+        codeToChar = new HashMap<>();
+        decoded = new ArrayList<>();
+
+        decodeCodes();
+        decodeStr();
+    }
 
     private void decodeCodes() {
         char codesNumber = (char) reader.next((byte) 8);
@@ -47,15 +55,6 @@ public class HuffmanStringDecoder {
 
         if (code != 0)
             throw new RuntimeException("ERROR! File is not valid");
-    }
-
-    public HuffmanStringDecoder(final byte[] data) {
-        reader = new BinaryStringReader(data);
-        codeToChar = new HashMap<>();
-        decoded = new ArrayList<>();
-
-        decodeCodes();
-        decodeStr();
     }
 
     public byte[] getDecoded() {

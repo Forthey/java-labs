@@ -55,18 +55,10 @@ public class HuffmanIO {
 
         String postFix = "?";
         switch (level) {
-            case 0 -> {
-                postFix = "B";
-            }
-            case 1 -> {
-                postFix = "KB";
-            }
-            case 2 -> {
-                postFix = "MB";
-            }
-            case 3 -> {
-                postFix = "GB";
-            }
+            case 0 -> postFix = "B";
+            case 1 -> postFix = "KB";
+            case 2 -> postFix = "MB";
+            case 3 -> postFix = "GB";
         }
 
         return String.format("%d%s", size, postFix);

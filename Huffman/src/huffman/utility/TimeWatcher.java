@@ -15,6 +15,7 @@ public class TimeWatcher {
         lastSuite = suite;
         timePoint = System.nanoTime();
     }
+
     public void stop() {
         if (!isOn) return;
         long timeDelta = System.nanoTime() - timePoint;

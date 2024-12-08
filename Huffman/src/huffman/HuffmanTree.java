@@ -8,6 +8,34 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 public class HuffmanTree {
+    private static class Node {
+        public byte b;
+        public long freq;
+
+        Node left, right;
+
+        public Node(byte b, long freq, Node left, Node right) {
+            this.b = b;
+            this.freq = freq;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    private Node root;
+
+    public HuffmanTree(final byte[] data) {
+        root = buildHuffmanTree(countBytes(data)).root;
+    }
+
+    public HuffmanTree(byte b, long freq) {
+        root = new Node(b, freq, null, null);
+    }
+
+    public HuffmanTree(HuffmanTree left, HuffmanTree right) {
+        root = new Node((byte) 0, left.root.freq + right.root.freq, left.root, right.root);
+    }
+
     private static HashMap<Byte, Long> countBytes(final byte[] data) {
         var charFrequency = new HashMap<Byte, Long>();
 
@@ -38,35 +66,7 @@ public class HuffmanTree {
         return symbolsQueue.peek();
     }
 
-    public static class Node {
-        public byte b;
-        public long freq;
-
-        Node left, right;
-
-        public Node(byte b, long freq, Node left, Node right) {
-            this.b = b;
-            this.freq = freq;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
-    Node root;
-
-    public HuffmanTree(final byte[] data) {
-        root = buildHuffmanTree(countBytes(data)).root;
-    }
-
-    public HuffmanTree(byte b, long freq) {
-        root = new Node(b, freq, null, null);
-    }
-
-    public HuffmanTree(HuffmanTree left, HuffmanTree right) {
-        root = new Node((byte) 0, left.root.freq + right.root.freq, left.root, right.root);
-    }
-
-    HashMap<Byte, CharCodeWithMeta> buildCodes() {
+    public HashMap<Byte, CharCodeWithMeta> buildCodes() {
         class TraversingData {
             public Node node;
             public final CharCodeWithMeta nodeCode;
@@ -99,7 +99,7 @@ public class HuffmanTree {
 
             stack.push(new TraversingData(
                     data.node.left, new CharCodeWithMeta(
-                            data.nodeCode.code << 1, (byte) (data.nodeCode.length + (byte) 1))
+                    data.nodeCode.code << 1, (byte) (data.nodeCode.length + (byte) 1))
             ));
 
             stack.push(new TraversingData(
