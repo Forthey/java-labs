@@ -35,7 +35,7 @@ public class HuffmanStringEncoder {
         encodeStr();
     }
 
-    public Byte[] getEncoded() {
+    public byte[] getEncoded() {
         return encoder.getBytes();
     }
 }

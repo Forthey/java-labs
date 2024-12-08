@@ -2,10 +2,7 @@ package huffman;
 
 import huffman.utility.CharCodeWithMeta;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,11 +26,9 @@ public class HuffmanIO {
         }
     }
 
-    public static void writeToFile(final String filename, final Byte[] data) {
+    public static void writeToFile(final String filename, final byte[] data) {
         try (var fileOutputStream = new FileOutputStream(filename)) {
-            for (byte b : data) {
-                fileOutputStream.write(b);
-            }
+            fileOutputStream.write(data);
         } catch (FileNotFoundException e) {
             System.err.println("File not found: " + filename);
         }
@@ -43,18 +38,8 @@ public class HuffmanIO {
     }
 
     public static byte[] readFromFile(final String filename) {
-
-        try (var inputStream = new FileInputStream(filename)) {
-            var stringBuilder = new StringBuilder();
-
-            int byteData;
-            while ((byteData = inputStream.read()) != -1) {  // Чтение байтов из файла
-                stringBuilder.append((char) byteData);
-            }
-
-            return stringBuilder.toString().getBytes(StandardCharsets.ISO_8859_1);
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + filename);
+        try {
+            return Files.readAllBytes(Path.of(filename));
         } catch (IOException e) {
             System.err.println("Error reading file: " + e.getMessage());
         }

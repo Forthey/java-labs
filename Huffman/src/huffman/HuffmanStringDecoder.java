@@ -9,14 +9,14 @@ import java.util.HashMap;
 
 public class HuffmanStringDecoder {
     private BinaryStringReader reader;
-    private HashMap<CharCodeWithMeta, Character> codeToChar;
+    private HashMap<CharCodeWithMeta, Byte> codeToChar;
     private ArrayList<Byte> decoded;
 
     private void decodeCodes() {
         char codesNumber = (char) reader.next((byte) 8);
 
         for (char i = 0; i <= codesNumber; i++) {
-            char ch = (char) reader.next((byte) 8);
+            byte ch = (byte) reader.next((byte) 8);
             byte codeLength = (byte) reader.next((byte) 6);
             long code = reader.next(codeLength);
 
@@ -39,7 +39,7 @@ public class HuffmanStringDecoder {
 
             var charCodeWithMeta = new CharCodeWithMeta(code, codeLength);
             if (codeToChar.containsKey(charCodeWithMeta)) {
-                decoded.add((byte) codeToChar.get(charCodeWithMeta).charValue());
+                decoded.add(codeToChar.get(charCodeWithMeta));
                 code = 0;
                 codeLength = 0;
             }
@@ -58,7 +58,11 @@ public class HuffmanStringDecoder {
         decodeStr();
     }
 
-    public Byte[] getDecoded() {
-        return decoded.toArray(new Byte[0]);
+    public byte[] getDecoded() {
+        byte[] bytes = new byte[decoded.size()];
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] = (byte) decoded.get(i);
+        }
+        return bytes;
     }
 }

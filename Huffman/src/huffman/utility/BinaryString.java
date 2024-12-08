@@ -1,5 +1,6 @@
 package huffman.utility;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -27,7 +28,7 @@ public class BinaryString {
             return;
         }
 
-        data.set(data.size() - 1, (byte) ((data.getLast() << 1) + cBit));
+        data.set(data.size() - 1, (byte) ((byte) (data.getLast() << 1) + cBit));
         bitsAtTheEnd++;
     }
 
@@ -53,7 +54,11 @@ public class BinaryString {
         placeByteCode(new CharCodeWithMeta(trueBitsAtTheEnd, bitsInByte));
     }
 
-    public Byte[] getBytes() {
-        return data.toArray(new Byte[0]);
+    public byte[] getBytes() {
+        byte[] bytes = new byte[data.size()];
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] = data.get(i);
+        }
+        return bytes;
     }
 };

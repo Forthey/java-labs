@@ -25,7 +25,7 @@ public class Huffman {
 //        timeWatcher.stop();
 
         timeWatcher.start("encode-str");
-        Byte[] encodedData = new HuffmanStringEncoder(codes, data).getEncoded();
+        byte[] encodedData = new HuffmanStringEncoder(codes, data).getEncoded();
         timeWatcher.stop();
 
         timeWatcher.start("write-file-encoded");
@@ -41,7 +41,7 @@ public class Huffman {
         timeWatcher.stop();
 
         timeWatcher.start("decode-file");
-        Byte[] data = new HuffmanStringDecoder(encodedData).getDecoded();
+        byte[] data = new HuffmanStringDecoder(encodedData).getDecoded();
         timeWatcher.stop();
 
         timeWatcher.start("write-file-decoded");
