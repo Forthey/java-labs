@@ -1,6 +1,6 @@
 package huffman.utility;
 
-class CharCodeWithMeta {
+public class CharCodeWithMeta {
     public long code;
     public byte length;
 

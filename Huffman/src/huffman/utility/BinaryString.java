@@ -1,6 +1,6 @@
 package huffman.utility;
 
-class BinaryString {
+public class BinaryString {
     private final byte bitsInChar;
     private StringBuilder str;
     private byte bitsAtTheEnd;
