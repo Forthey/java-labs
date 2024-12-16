@@ -22,8 +22,9 @@ public class HuffmanIO {
     }
 
     public static void printCodes(final HashMap<Byte, CharCodeWithMeta> codes) {
+        System.out.printf("\nCodes (total %d): \n", codes.size());
         for (Byte ch : codes.keySet()) {
-            System.out.printf("%c (%d) \t%s\n", (char) ch.byteValue(), ch, prettyCode(codes.get(ch)));
+            System.out.printf("\t%c (%d) \t%s\n", (char) ch.byteValue(), ch, prettyCode(codes.get(ch)));
         }
     }
 
@@ -67,6 +68,6 @@ public class HuffmanIO {
 
     public static void printStats(long sizeBefore, long sizeAfter) {
         double compressionRatio = 1.0 - (double) sizeAfter / sizeBefore;
-        System.out.printf("size: %s -> %s (%d%%)\n", prettySize(sizeBefore), prettySize(sizeAfter), (int) (compressionRatio * 100));
+        System.out.printf("\nSize: %s -> %s (%d%%)\n", prettySize(sizeBefore), prettySize(sizeAfter), (int) (compressionRatio * 100));
     }
 }
