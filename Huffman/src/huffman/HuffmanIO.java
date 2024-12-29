@@ -9,7 +9,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 
+/**
+ * Utility class for performing input and output operations in the Huffman compression algorithm.
+ * Includes methods for reading and writing files, printing Huffman codes, and displaying compression statistics.
+ */
 public class HuffmanIO {
+
+    /**
+     * Converts a {@link CharCodeWithMeta} object to a human-readable binary representation.
+     *
+     * @param code The Huffman code to convert.
+     * @return A string representation of the binary code.
+     */
     private static String prettyCode(final CharCodeWithMeta code) {
         var result = new StringBuilder();
 
@@ -21,6 +32,11 @@ public class HuffmanIO {
         return result.toString();
     }
 
+    /**
+     * Prints the Huffman codes and their corresponding characters to the console.
+     *
+     * @param codes A map of characters to their {@link CharCodeWithMeta} objects.
+     */
     public static void printCodes(final HashMap<Byte, CharCodeWithMeta> codes) {
         System.out.printf("\nCodes (total %d): \n", codes.size());
         for (Byte ch : codes.keySet()) {
@@ -28,6 +44,12 @@ public class HuffmanIO {
         }
     }
 
+    /**
+     * Writes binary data to a file.
+     *
+     * @param filename The path to the file where data should be written.
+     * @param data     The binary data to write.
+     */
     public static void writeToFile(final String filename, final byte[] data) {
         try (var fileOutputStream = new FileOutputStream(filename)) {
             fileOutputStream.write(data);
@@ -38,6 +60,12 @@ public class HuffmanIO {
         }
     }
 
+    /**
+     * Reads binary data from a file.
+     *
+     * @param filename The path to the file to read.
+     * @return A byte array containing the file's contents, or {@code null} if an error occurs.
+     */
     public static byte[] readFromFile(final String filename) {
         try {
             return Files.readAllBytes(Path.of(filename));
@@ -47,6 +75,12 @@ public class HuffmanIO {
         return null;
     }
 
+    /**
+     * Converts a file size in bytes to a human-readable format (e.g., KB, MB, GB).
+     *
+     * @param size The size in bytes.
+     * @return A formatted string representing the size.
+     */
     private static String prettySize(long size) {
         long loweredSize;
         byte level = 0;
@@ -66,6 +100,12 @@ public class HuffmanIO {
         return String.format("%d%s", size, postFix);
     }
 
+    /**
+     * Prints compression or decompression statistics to the console, including original and resulting sizes.
+     *
+     * @param sizeBefore The size of the data before compression or decompression.
+     * @param sizeAfter  The size of the data after compression or decompression.
+     */
     public static void printStats(long sizeBefore, long sizeAfter) {
         double compressionRatio = 1.0 - (double) sizeAfter / sizeBefore;
         System.out.printf("\nSize: %s -> %s (%d%%)\n", prettySize(sizeBefore), prettySize(sizeAfter), (int) (compressionRatio * 100));

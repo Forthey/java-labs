@@ -6,7 +6,20 @@ import huffman.utility.TimeWatcher;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Provides methods for Huffman compression and decompression operations.
+ * Handles reading input files, encoding/decoding data, and writing output files.
+ */
 public class Huffman {
+
+    /**
+     * Compresses a file using Huffman encoding.
+     *
+     * @param inFilename  The path to the input file to compress.
+     * @param outFilename The path to the output file to write compressed data.
+     * @param printCodes  If true, prints the generated Huffman codes to the console.
+     * @param printStats  If true, prints compression statistics, including input and output sizes.
+     */
     public static void compress(final String inFilename, final String outFilename, boolean printCodes, boolean printStats) {
         var timeWatcher = new TimeWatcher();
 
@@ -37,6 +50,13 @@ public class Huffman {
         }
     }
 
+    /**
+     * Decompresses a file that was compressed using Huffman encoding.
+     *
+     * @param inFilename  The path to the input file containing compressed data.
+     * @param outFilename The path to the output file to write decompressed data.
+     * @param printStats  If true, prints decompression statistics, including input and output sizes.
+     */
     public static void decompress(final String inFilename, final String outFilename, boolean printStats) {
         var timeWatcher = new TimeWatcher();
 
